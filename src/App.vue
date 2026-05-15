@@ -7,11 +7,11 @@ const { isLoading, isIdProvided, isExtraSpellingNeeded, upload } = useIdUpload()
 
 const input = useTemplateRef('extraName')
 
-watch(input, () => {
+ const focusIfNeeded = () => {
   if (isExtraSpellingNeeded.value){
     input.value?.focus()
   }
-})
+}
 
 </script>
 
@@ -23,7 +23,7 @@ watch(input, () => {
   </button>
   <p v-if="isIdProvided && !isLoading">
     <label>Provide your name in English</label><span v-if="isExtraSpellingNeeded" class="required">(required)</span>:
-    <MyInput ref="extraName"/>
+    <MyInput @vue:mounted="focusIfNeeded" ref="extraName"/>
   </p>
 </template>
 
