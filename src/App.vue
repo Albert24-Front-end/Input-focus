@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { useIdUpload } from './composables/useIdUpload';
+import { useTemplateRef, watch } from 'vue';
+import { useIdUpload, } from './composables/useIdUpload';
 
 const { isLoading, isIdProvided, isExtraSpellingNeeded, upload } = useIdUpload();
 
-const vFocus = {
-  mounted(el: HTMLInputElement) {
-    el.focus()
+const input = useTemplateRef('extraName')
+
+watch(input, () => {
+  if (isExtraSpellingNeeded.value){
+    input.value?.focus()
   }
-}
+})
 
 </script>
 
@@ -19,7 +22,7 @@ const vFocus = {
   </button>
   <p v-if="isIdProvided">
     <label>Provide your name in English</label><span v-if="isExtraSpellingNeeded" class="required">(required)</span>:
-    <input v-focus/>
+    <input ref="extraName"/>
   </p>
 </template>
 
